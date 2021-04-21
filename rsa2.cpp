@@ -9,7 +9,7 @@
 using namespace std;
 
 //Выбирает все простые числа до заданного
-int sundaram(int n)
+int simple_num(int n)
 {
 	int* a = new int[n], i, j, k;
 	memset(a, 0, sizeof(int) * n);
@@ -52,8 +52,8 @@ int main()
 	int p_temp = rand() % 100+1;
 	int q_temp = rand() % 100+1;
 
-	int p = sundaram(p_temp);
-	int q = sundaram(q_temp);
+	int p = simple_num(p_temp);
+	int q = simple_num(q_temp);
 
 	unsigned int n = p * q;
 
@@ -73,42 +73,40 @@ int main()
 	}
 
 	//Сгенерированные ключи.
-	cout << '{' << e_temp << ',' << n << '}' << " - Open key" << endl;
-	cout << '{' << d_temp << ',' << n << '}' << " - Secret key" << endl << endl;
+	cout << "Open key: " << '{' << e_temp << ',' << n << '}'<< endl;
+	cout <<  "Private key: " << '{' << d_temp << ',' << n << '}' << endl << endl;
 
 	//Ввод шифруемых данных.
 
 	cout << "Please enter msg: ";
-	int MAX = 1000;
-	char* Text = new char[MAX];
+	int max = 1000;
+	char* Text = new char[max];
 	string input = "";
 	getline(cin, input);
 	int size = input.length();
 
-	for (int i = 0; i < MAX; i++)
+	for (int i = 0; i < max; i++)
 	{
 		if (i >= size)
 			Text[i] = '=';
 		else Text[i] = input[i];
 	}
 	//Массив для хранения шифротекста.
-	unsigned int* CryptoText = new unsigned int[MAX];
-	unsigned int* DecryptText = new unsigned int[MAX];
+	unsigned int* CryptoText = new unsigned int[max];
+	unsigned int* DecryptText = new unsigned int[max];
 
 
 
 	int b = 301;
-	int c;
-	
 	//Получение из введённых данных десятичного кода ASCII и его преобразование по формуле Ci = (mj^e)mod n.
-	for (int j = 0; j < MAX; j++)
+	for (int j = 0; j < max; j++)
 	{
-		c = 1;
+		int c = 1;
 		unsigned int i = 0;
-		int ASCIIcode = (static_cast<int>(Text[j])) + b;
+		int ASС = (static_cast<int>(Text[j])) + b;
 		while (i < e_temp)
 		{
-			c = c * ASCIIcode;
+			c = c * ASС;
 			c = c % n;
 			i++;
 		}
@@ -117,14 +115,13 @@ int main()
 	}
 
 
-	classs::cpp_int chislo = classs::pow(classs::cpp_int(82), 364);
+	//classs::cpp_int chislo = classs::pow(classs::cpp_int(82), 364);
 
-	//Расшифровка полученного кода по формуле mi = (ci^d)%n и перевод его в десятичный код ASCII.
+	//Расшифровка полученного кода по формуле mi = (ci^d)%n
 	b = 301;
-	int m;
-	for (int j = 0; j < MAX; j++)
+	for (int j = 0; j < max; j++)
 	{
-		m = 1;
+		int m = 1;
 		unsigned int i = 0;
 		while (i < d_temp)
 		{
@@ -132,21 +129,18 @@ int main()
 			m = m % n;
 			i++;
 		}
-		
 		m = m - b;
 		DecryptText[j] = m;
 		b += 1;
 	}
 
 	
-
 	cout << "CryptoText: ";
 	for (int j = 0; j < size; j++)
 	{
 		cout << CryptoText[j];
 	}
-	cout << endl;
-	cout << "DecryptText: ";
+	cout << "\nDecryptText: ";
 
 	for (int j = 0; j < size; j++)
 	{
